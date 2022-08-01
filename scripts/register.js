@@ -112,7 +112,6 @@ registerBtn.addEventListener('click', function () {
     alert('Congratulations you successful registration ! 🎉 🎉');
     window.location.href = '../pages/login.html';
     userArr.push(user);
-    console.log(userArr);
     saveToStorage(KEY, JSON.stringify(userArr));
     clearInput();
   }

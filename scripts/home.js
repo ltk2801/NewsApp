@@ -66,7 +66,7 @@ if (tamp === 1) {
 } else renderHome();
 
 document.getElementById('btn-logout').addEventListener('click', function () {
-  if (confirm('You want to logout? ')) {
+  if (confirm('YOU WANT TO GO OUT? ')) {
     deleteStorage(KEY2);
     setTimeout(renderHome, 2000);
   }
