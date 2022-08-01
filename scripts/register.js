@@ -14,6 +14,10 @@ class User {
     this.userName = userName;
     this.passWord = passWord;
   }
+  API = {
+    category: '',
+    pageSize: '',
+  };
 }
 
 const KEY = 'USER-ARRAY';

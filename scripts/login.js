@@ -9,8 +9,6 @@ const userArr = JSON.parse(getFromStorage(KEY)) || [];
 const KEY2 = 'CR-USER';
 const currentUser = JSON.parse(getFromStorage(KEY2)) || [];
 
-console.log(userArr);
-
 // Kiểm tra
 function validate(data) {
   // Check không trường nào bị bỏ trống
@@ -39,7 +37,6 @@ function checkLogin(data) {
     if (user.userName === data.userName && user.passWord === data.password) {
       currentUser.push(user);
       saveToStorage(KEY2, JSON.stringify(currentUser));
-      console.log(currentUser);
       window.location.href = '../index.html';
       return true;
     }
