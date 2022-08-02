@@ -41,6 +41,11 @@
             >
           </li>
           <li>
+            <a href="./pages/search.html"
+              ><span class="fa fa-search mr-3"></span> Search</a
+            >
+          </li>
+          <li>
             <a href="./pages/setting.html"
               ><span class="fa fa-cogs mr-3"></span> Settings</a
             >
@@ -49,11 +54,37 @@
       </nav>
 
       <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-5 pt-5"></div>
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4">Home</h2>
+
+        <!-- Login and Register redirect button -->
+        <div id="login-modal">
+          <p>Please Login or Register</p>
+          <div class="row">
+            <div class="col-md-3">
+              <a href="./pages/login.html" class="btn btn-primary btn-block"
+                >Login</a
+              >
+            </div>
+            <div class="col-md-3">
+              <a href="./pages/register.html" class="btn btn-primary btn-block"
+                >Register</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div id="main-content">
+          <p id="welcome-message"></p>
+          <button type="button" class="btn btn-primary" id="btn-logout">
+            Logout
+          </button>
+        </div>
+      </div>
     </div>
 
     <script src="./models/User.js"></script>
-    <script src="./scripts/storage.js"></script>
+    <script src="./scripts//storage.js"></script>
     <script src="./scripts/home.js"></script>
   </body>
 </html>

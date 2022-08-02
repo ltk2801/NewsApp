@@ -2,18 +2,26 @@
 
 const KEY2 = 'CR-USER';
 const currentUser = JSON.parse(getFromStorage(KEY2)); // Lấy user hiện đang đăng nhập
-const category = currentUser[0].API.category || 'Technology'; //Lấy category của người dùng
 const newsperpage = currentUser[0].API.pageSize || 5; //Lấy số tin tức mỗi trang, nếu không có thì mặc định là 5
-// console.log(currentUser[0].API.category);
+const queryInput = document.getElementById('input-query'); // input
+const searchBtn = document.getElementById('btn-submit');
+const newsContainer = document.getElementById('news-container'); // render
+const prevBtn = document.getElementById('btn-prev'); // Nét previous
+const num = document.getElementById('page-num'); // Nút trang
+const nextBtn = document.getElementById('btn-next'); // Nút next
 
-const newsContainer = document.getElementById('news-container');
-const prevBtn = document.getElementById('btn-prev');
-const num = document.getElementById('page-num');
-const nextBtn = document.getElementById('btn-next');
-
+// Tạo mảng danh sách news
 let news = [];
-
 let curPage = 1; //Lưu số trang hiện tại
+
+// Check value
+function validate() {
+  if (queryInput.value === '') {
+    alert('PLEASE INPUT 💥 💥');
+    return false;
+  }
+  return true;
+}
 
 // Render 1 trang báo
 const renderNew = function () {
@@ -44,14 +52,35 @@ const renderNew = function () {
   newsContainer.innerHTML = html;
 };
 
+function prevnextDisplay(prevBtn, nextBtn, maxPage) {
+  //Điều chỉnh nút previous và nút next
+  if (curPage == 1) {
+    //Nếu trang hiện tại là 1
+    prevBtn.classList.add('toast'); //Ẩn nút previous đi
+    prevBtn.classList.add('disabled'); //Hủy luôn cả hiệu ứng khi rê chuột vào
+  }
+  if (curPage == maxPage) {
+    //Nếu trang hiện tại là lớn nhất
+    nextBtn.classList.add('toast'); //Ẩn nút next đi
+    nextBtn.classList.add('disabled'); //Hủy luôn cả hiệu ứng khi rê chuột vào
+  }
+  if (curPage > 1 && curPage < maxPage) {
+    //Nếu trang hiện tại nằm giữa 1 và lớn nhất  thì hiện cả 2 nút previous và next lên cũng như khôi hiệu ứng cho chúng
+    nextBtn.classList.remove('toast');
+    nextBtn.classList.remove('disabled');
+    prevBtn.classList.remove('disabled');
+    prevBtn.classList.remove('toast');
+  }
+}
+
 // Lấy API và hiện thị trang báo
 
-const getNews = async function (curPage) {
+const getNews = async function (curPage, key) {
   try {
     const url =
-      'https://newsapi.org/v2/top-headlines?' +
-      `country=gb&` +
-      `category=${category}&` +
+      'https://newsapi.org/v2/everything?' +
+      `q=${key}&` +
+      `language=en&` +
       `pageSize=${newsperpage}&` +
       `page=${curPage}&` +
       `apiKey=0dce433255314c708487fa7cedc66e2f`;
@@ -75,31 +104,16 @@ const getNews = async function (curPage) {
   }
 };
 
-function prevnextDisplay(prevBtn, nextBtn, maxPage) {
-  //Điều chỉnh nút previous và nút next
-  if (curPage == 1) {
-    //Nếu trang hiện tại là 1
-    prevBtn.classList.add('toast'); //Ẩn nút previous đi
-    prevBtn.classList.add('disabled'); //Hủy luôn cả hiệu ứng khi rê chuột vào
+// Xử lý sự kiện khi ấn vào btn
+searchBtn.addEventListener('click', function () {
+  const keyW = queryInput.value;
+  const check = validate();
+  if (check) {
+    getNews(curPage, keyW);
   }
-  if (curPage == maxPage) {
-    //Nếu trang hiện tại là lớn nhất
-    nextBtn.classList.add('toast'); //Ẩn nút next đi
-    nextBtn.classList.add('disabled'); //Hủy luôn cả hiệu ứng khi rê chuột vào
-  }
-  if (curPage > 1 && curPage < maxPage) {
-    //Nếu trang hiện tại nằm giữa 1 và lớn nhất  thì hiện cả 2 nút previous và next lên cũng như khôi hiệu ứng cho chúng
-    nextBtn.classList.remove('toast');
-    nextBtn.classList.remove('disabled');
-    prevBtn.classList.remove('disabled');
-    prevBtn.classList.remove('toast');
-  }
-}
+});
 
-// Hiện tin tức theo trang đầu
-getNews(curPage);
-
-// Sự kiện khi ấn vào nút next
+// Xử lý sự kiện khi ấn vào nút next
 
 nextBtn.addEventListener('click', function () {
   // render tin tức theo page hiện tại
@@ -108,6 +122,8 @@ nextBtn.addEventListener('click', function () {
   num.text = curPage;
   // console.log(curPage);
 });
+
+// Xử lý sự kiện khi ấn vào nút previous
 
 prevBtn.addEventListener('click', function () {
   // Nếu trang hiện tại lớn hơn 1 thì thực thi

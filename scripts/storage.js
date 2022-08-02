@@ -11,3 +11,7 @@ function getFromStorage(key) {
 function deleteStorage(key) {
   return localStorage.removeItem(key);
 }
+
+function deleteStorageValue(key) {
+  return localStorage;
+}
